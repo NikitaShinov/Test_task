@@ -11,7 +11,14 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+//    lazy var coreDataManager: StorageManager = .init(modelName: "LikedPhoto")
+//    
+//    static let sharedAppDelegate: AppDelegate = {
+//        guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
+//            fatalError()
+//        }
+//        return delegate
+//    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

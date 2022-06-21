@@ -15,4 +15,5 @@ enum Constants: String {
     case accessKey = "o9nNv8z_2zzZroB99wNtixP4u8fMjCwNcFxIJKI9QiY"
     case getRandomPhoto = "/photos/random?count=30"
     case searchPhoto = "/search/photos?query="
+    
 }

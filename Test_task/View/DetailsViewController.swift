@@ -9,7 +9,24 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-    var photo: Photo?
+    var photoURL: String?
+    var downloads: String?
+    var author: String?
+    var location: String?
+    var creationDate: String?
+    
+    init(photoURL: String, downloads: String, author: String, location: String, creationDate: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.photoURL = photoURL
+        self.downloads = downloads
+        self.author = author
+        self.location = location
+        self.creationDate = creationDate
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     lazy var selectedImage: UIImageView = {
         let image = UIImageView()
@@ -63,8 +80,9 @@ class DetailViewController: UIViewController {
         setupUI()
         configureUI()
         setupLayout()
-
     }
+    
+    // MARK: - Private Methods
     
     private func configureUI() {
         
@@ -76,32 +94,57 @@ class DetailViewController: UIViewController {
         view.addSubview(picDownloads)
         view.addSubview(createdAt)
         likeButton.addTarget(self, action: #selector(addToFavourites), for: .touchUpInside)
+        setupLikeButton()
         
     }
     
     @objc private func addToFavourites() {
         
-        guard let photo = photo else {
+        guard let downloads = downloads else {
             return
         }
-        StorageManager.shared.save(photo: photo)
-        likeButton.isHidden = true
-        dismiss(animated: true)
-        
+    
+        if StorageManager.shared.searchInCoreData(with: photoURL) {
+            guard let searchedObject = StorageManager.shared.retrieveSingleObject(with: photoURL) else { return }
+            StorageManager.shared.delete(photo: searchedObject)
+            likeButton.setTitle("Добавить в избранное", for: .normal)
+            likeButton.backgroundColor = .systemBlue
+            presentAlert(title: nil, message: "Фото удалено из избранных")
+        } else {
+            StorageManager.shared.save(author: author,
+                                       photoUrl: photoURL,
+                                       downloads: downloads,
+                                       location: location,
+                                       creationDate: creationDate)
+            likeButton.setTitle("Удалить из избранных", for: .normal)
+            likeButton.backgroundColor = .systemRed
+            presentAlert(title: nil, message: "Фото добавлено в избранные")
+        }
     }
     
     private func setupUI() {
-        guard let photo = photo else { return }
-        selectedImage.kf.setImage(with: URL(string: photo.urls.regular))
-        authorName.text = photo.user.name
-        picLocation.text = "Локация: \(photo.user.location ?? "Локация недоступна")"
-        picDownloads.text = "Загрузок: \(photo.downloads ?? 0)"
-        let date = DateConverter.shared.setupDate(date: photo.created_at)
+
+        selectedImage.kf.setImage(with: URL(string: photoURL ?? ""))
+        authorName.text = author
+        picLocation.text = "Локация: \(location ?? "Нет данных")"
+        picDownloads.text = "Загрузок: \(downloads ?? "Нет загрузок")"
+        let date = DateConverter.shared.setupDate(date: creationDate ?? "" )
         createdAt.text = "Дата создания - \(date)"
+        
+    }
+    
+    private func setupLikeButton() {
+        if StorageManager.shared.searchInCoreData(with: photoURL) {
+            likeButton.setTitle("Удалить из избранных", for: .normal)
+            likeButton.backgroundColor = .systemRed
+        } else {
+            likeButton.setTitle("Добавить в избранное", for: .normal)
+            likeButton.backgroundColor = .systemBlue
+        }
     }
     
     private func setupLayout() {
-        selectedImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: view.frame.size.height / 3)
+        selectedImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 50, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: view.frame.size.height / 3)
         
         authorName.anchor(top: selectedImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 30)
         
@@ -109,17 +152,9 @@ class DetailViewController: UIViewController {
         
         picDownloads.anchor(top: authorName.bottomAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: view.frame.size.width / 2, height: 40)
         
-        createdAt.anchor(top: picDownloads.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 20)
+        createdAt.anchor(top: picDownloads.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 20)
         
-        likeButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 50, paddingBottom: 50, paddingRight: 50, width: 0, height: 50)
+        likeButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 50, paddingBottom: 70, paddingRight: 50, width: 0, height: 50)
     }
     
-}
-
-extension DetailViewController {
-    func presentAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
 }

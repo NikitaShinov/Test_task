@@ -13,9 +13,6 @@ class NetworkManager {
     
     private init() {}
     
-//https://api.unsplash.com/photos/random?count=30&orientation=squarish&client_id=o9nNv8z_2zzZroB99wNtixP4u8fMjCwNcFxIJKI9QiY
-
-    
     func getRandomImages(completion: @escaping (Result<[Photo], Error>) -> Void) {
         guard let url = URL(string: Constants.baseUrl.rawValue + Constants.getRandomPhoto.rawValue) else { return }
         var request = URLRequest(url: url)

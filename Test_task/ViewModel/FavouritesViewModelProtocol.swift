@@ -14,5 +14,8 @@ protocol FavouritesViewModelProtocol: AnyObject {
     func deletePhoto(photo: LikedPhoto)
     func getPhotoURL(at indexPath: IndexPath) -> String
     func getAuthorName(at indexPath: IndexPath) -> String
+    func getLocation(at indexPath: IndexPath) -> String
+    func getDownloads(at indexPath: IndexPath) -> String
+    func getDate(at indexPath: IndexPath) -> String
     func numberOfRows() -> Int
 }

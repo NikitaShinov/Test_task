@@ -22,6 +22,8 @@ class FavouritesViewController: UITableViewController {
         configureUI()
     }
     
+    // MARK: - Private Methods
+    
     private func configureUI() {
         title = "Избранное"
         viewModel = FavouritesViewModel()
@@ -30,7 +32,6 @@ class FavouritesViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-        print (viewModel.photos.count)
         tableView.register(FavouritesTableViewCell.self, forCellReuseIdentifier: FavouritesTableViewCell.indentifier)
         tableView.refreshControl = refresh
         
@@ -43,6 +44,8 @@ class FavouritesViewController: UITableViewController {
         sender.endRefreshing()
     }
     
+    // MARK: - UITableDataSource
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfRows()
     }
@@ -51,8 +54,11 @@ class FavouritesViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: FavouritesTableViewCell.indentifier, for: indexPath) as! FavouritesTableViewCell
         cell.authorName.text = viewModel.getAuthorName(at: indexPath)
         cell.picture.kf.setImage(with: URL(string: viewModel.getPhotoURL(at: indexPath)))
+        print (viewModel.getPhotoURL(at: indexPath))
         return cell
     }
+    
+    // MARK: - UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         120
@@ -63,11 +69,19 @@ class FavouritesViewController: UITableViewController {
             let photoToDelete = viewModel.photos[indexPath.row]
             viewModel.photos.remove(at: indexPath.row)
             StorageManager.shared.delete(photo: photoToDelete)
+            presentAlert(title: nil, message: "Фото удалено из избранных")
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        
+        let vc = DetailViewController(photoURL: viewModel.getPhotoURL(at: indexPath),
+                                      downloads: viewModel.photos[indexPath.row].downloads ?? "",
+                                      author: viewModel.getAuthorName(at: indexPath),
+                                      location: viewModel.getLocation(at: indexPath),
+                                      creationDate: viewModel.getDate(at: indexPath))
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

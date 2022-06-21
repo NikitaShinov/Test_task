@@ -18,6 +18,7 @@ class FavouritesViewModel: FavouritesViewModelProtocol {
         }
     }
     
+    
     func deletePhoto(photo: LikedPhoto) {
         StorageManager.shared.delete(photo: photo)
     }
@@ -28,6 +29,18 @@ class FavouritesViewModel: FavouritesViewModelProtocol {
     
     func getPhotoURL(at indexPath: IndexPath) -> String {
         photos[indexPath.row].photo ?? ""
+    }
+    
+    func getLocation(at indexPath: IndexPath) -> String {
+        photos[indexPath.row].location ?? "Локация недоступна"
+    }
+    
+    func getDownloads(at indexPath: IndexPath) -> String {
+        photos[indexPath.row].downloads ?? "Недоступно"
+    }
+    
+    func getDate(at indexPath: IndexPath) -> String {
+        photos[indexPath.row].creationDate ?? ""
     }
     
     func getAuthorName(at indexPath: IndexPath) -> String {

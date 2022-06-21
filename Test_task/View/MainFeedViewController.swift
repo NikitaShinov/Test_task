@@ -24,6 +24,8 @@ class MainFeedViewController: UIViewController {
         
     }
     
+    // MARK: - Private Methods
+    
     private func configureUI() {
         title = "Лента"
     }
@@ -53,7 +55,7 @@ class MainFeedViewController: UIViewController {
     
 }
 
-// MARK: - UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
 extension MainFeedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -67,17 +69,22 @@ extension MainFeedViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - UICollectionViewDelegate
+    // MARK: - UICollectionViewDelegate
 
 extension MainFeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.photo = viewModel.photos[indexPath.item]
-        present(vc, animated: true, completion: nil)
+        let selectedItem = viewModel.photos[indexPath.item]
+        let vc = DetailViewController(photoURL: selectedItem.urls.regular,
+                                      downloads: "\(selectedItem.downloads ?? 0)",
+                                      author: selectedItem.user.name,
+                                      location: selectedItem.user.location ?? "Неизвестно",
+                                      creationDate: selectedItem.created_at)
+
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
+    // MARK: - UICollectionViewDelegateFlowLayout
 
 extension MainFeedViewController: UICollectionViewDelegateFlowLayout {
     

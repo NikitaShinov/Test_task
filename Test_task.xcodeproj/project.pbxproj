@@ -156,11 +156,10 @@
 		503C254E286090820073CEF6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				503C25662860F9650073CEF6 /* Cells */,
 				503C2524285FB2130073CEF6 /* MainTabBarController.swift */,
 				503C2537285FB2CC0073CEF6 /* MainFeedViewController.swift */,
 				503C2539285FB30B0073CEF6 /* FavouritesViewController.swift */,
-				503C2541285FB6420073CEF6 /* FavouritesTableViewCell.swift */,
-				503C253F285FB6330073CEF6 /* FeedCollectionViewCell.swift */,
 				503C2551286095730073CEF6 /* DetailsViewController.swift */,
 			);
 			path = View;
@@ -193,6 +192,15 @@
 				503C255F2860CCB70073CEF6 /* LikedPhoto+CoreDataProperties.swift */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		503C25662860F9650073CEF6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				503C2541285FB6420073CEF6 /* FavouritesTableViewCell.swift */,
+				503C253F285FB6330073CEF6 /* FeedCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

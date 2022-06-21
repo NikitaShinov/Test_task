@@ -36,13 +36,18 @@ class StorageManager {
         }
     }
     
-    func save(photo: Photo) {
+    func save(author: String?,
+              photoUrl: String?,
+              downloads: String?,
+              location: String?,
+              creationDate: String?) {
+        
         let likedPhoto = LikedPhoto(context: context)
-        likedPhoto.author = photo.user.name
-        likedPhoto.location = photo.user.location
-        likedPhoto.downloads = String(describing: photo.downloads)
-        likedPhoto.photo = photo.urls.regular
-        likedPhoto.creationDate = photo.created_at
+        likedPhoto.author = author
+        likedPhoto.location = location
+        likedPhoto.downloads = downloads
+        likedPhoto.photo = photoUrl
+        likedPhoto.creationDate = creationDate
         
         do {
             try context.save()
@@ -58,6 +63,30 @@ class StorageManager {
             try context.save()
         } catch {
             print (error)
+        }
+    }
+    
+    func searchInCoreData(with currentImage: String?) -> Bool {
+        guard let searchQuery = currentImage else { return false }
+        let fetchRequest: NSFetchRequest<LikedPhoto>
+        fetchRequest = LikedPhoto.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "photo == %@", searchQuery)
+        
+        return ((try? context.count(for: fetchRequest)) ?? 0) > 0
+    }
+    
+    func retrieveSingleObject(with currentImage: String?) -> LikedPhoto? {
+        guard let searchQuery = currentImage else { return nil }
+        let fetchRequest: NSFetchRequest<LikedPhoto>
+        fetchRequest = LikedPhoto.fetchRequest()
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "photo == %@", searchQuery)
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            print (error)
+            return nil
         }
     }
 }

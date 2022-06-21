@@ -16,7 +16,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
         window?.rootViewController = MainTabBarController()
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
@@ -27,9 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneWillEnterForeground(_ scene: UIScene) {}
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-//        AppDelegate.sharedAppDelegate.coreDataManager.saveContext()
-    }
+    func sceneDidEnterBackground(_ scene: UIScene) {}
 
 }
 

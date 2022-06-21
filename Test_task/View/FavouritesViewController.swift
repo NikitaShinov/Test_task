@@ -25,7 +25,7 @@ class FavouritesViewController: UITableViewController {
     // MARK: - Private Methods
     
     private func configureUI() {
-        title = "Избранное"
+//        title = "Избранное"
         viewModel = FavouritesViewModel()
         viewModel.retrievePhoto {
             DispatchQueue.main.async {

@@ -17,8 +17,8 @@ class MainTabBarController: UITabBarController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         viewControllers = [
-            setupVC(vc: MainFeedViewController(), vcTitle: "Лента", vcImage: UIImage(systemName: Constants.feedImage.rawValue)!),
-            setupVC(vc: FavouritesViewController(), vcTitle: "Избранное", vcImage: UIImage(systemName: Constants.favouritesImage.rawValue)!)
+            setupVC(vc: MainFeedViewController(), vcTitle: "Random feed", vcImage: UIImage(systemName: Constants.feedImage.rawValue)!),
+            setupVC(vc: FavouritesViewController(), vcTitle: "Favourites", vcImage: UIImage(systemName: Constants.favouritesImage.rawValue)!)
         ]
     }
     

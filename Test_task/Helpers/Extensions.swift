@@ -54,6 +54,7 @@ class DateConverter {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         let newDate = dateFormatter.date(from: date)
         dateFormatter.dateFormat = "d MMM yyyy"
+        dateFormatter.locale = Locale(identifier: "en_US")
         let resultString = dateFormatter.string(from: newDate!)
         return resultString
     }

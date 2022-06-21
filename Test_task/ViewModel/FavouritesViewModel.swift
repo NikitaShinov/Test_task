@@ -32,11 +32,11 @@ class FavouritesViewModel: FavouritesViewModelProtocol {
     }
     
     func getLocation(at indexPath: IndexPath) -> String {
-        photos[indexPath.row].location ?? "Локация недоступна"
+        photos[indexPath.row].location ?? ""
     }
     
     func getDownloads(at indexPath: IndexPath) -> String {
-        photos[indexPath.row].downloads ?? "Недоступно"
+        photos[indexPath.row].downloads ?? ""
     }
     
     func getDate(at indexPath: IndexPath) -> String {

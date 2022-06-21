@@ -107,18 +107,18 @@ class DetailViewController: UIViewController {
         if StorageManager.shared.searchInCoreData(with: photoURL) {
             guard let searchedObject = StorageManager.shared.retrieveSingleObject(with: photoURL) else { return }
             StorageManager.shared.delete(photo: searchedObject)
-            likeButton.setTitle("Добавить в избранное", for: .normal)
+            likeButton.setTitle("Add to favourites", for: .normal)
             likeButton.backgroundColor = .systemBlue
-            presentAlert(title: nil, message: "Фото удалено из избранных")
+            presentAlert(title: nil, message: "Removed from favourites")
         } else {
             StorageManager.shared.save(author: author,
                                        photoUrl: photoURL,
                                        downloads: downloads,
                                        location: location,
                                        creationDate: creationDate)
-            likeButton.setTitle("Удалить из избранных", for: .normal)
+            likeButton.setTitle("Remove from favourites", for: .normal)
             likeButton.backgroundColor = .systemRed
-            presentAlert(title: nil, message: "Фото добавлено в избранные")
+            presentAlert(title: nil, message: "Added to favourites")
         }
     }
     
@@ -126,25 +126,25 @@ class DetailViewController: UIViewController {
 
         selectedImage.kf.setImage(with: URL(string: photoURL ?? ""))
         authorName.text = author
-        picLocation.text = "Локация: \(location ?? "Нет данных")"
-        picDownloads.text = "Загрузок: \(downloads ?? "Нет загрузок")"
+        picLocation.text = "Location: \(location ?? "No data")"
+        picDownloads.text = "Downloads: \(downloads ?? "No data")"
         let date = DateConverter.shared.setupDate(date: creationDate ?? "" )
-        createdAt.text = "Дата создания - \(date)"
+        createdAt.text = "Created on - \(date)"
         
     }
     
     private func setupLikeButton() {
         if StorageManager.shared.searchInCoreData(with: photoURL) {
-            likeButton.setTitle("Удалить из избранных", for: .normal)
+            likeButton.setTitle("Remove from favourites", for: .normal)
             likeButton.backgroundColor = .systemRed
         } else {
-            likeButton.setTitle("Добавить в избранное", for: .normal)
+            likeButton.setTitle("Add to favourites", for: .normal)
             likeButton.backgroundColor = .systemBlue
         }
     }
     
     private func setupLayout() {
-        selectedImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 50, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: view.frame.size.height / 3)
+        selectedImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: view.frame.size.height / 7, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: view.frame.size.height / 3)
         
         authorName.anchor(top: selectedImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 30)
         
@@ -154,7 +154,7 @@ class DetailViewController: UIViewController {
         
         createdAt.anchor(top: picDownloads.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 20)
         
-        likeButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 50, paddingBottom: 70, paddingRight: 50, width: 0, height: 50)
+        likeButton.anchor(top: createdAt.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 50, paddingBottom: 0, paddingRight: 50, width: 0, height: 50)
     }
     
 }

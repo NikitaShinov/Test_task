@@ -27,7 +27,7 @@ class MainFeedViewController: UIViewController {
     // MARK: - Private Methods
     
     private func configureUI() {
-        title = "Лента"
+//        title = "Лента"
     }
     
     private func createCollectionView() {

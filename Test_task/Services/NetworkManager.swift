@@ -13,12 +13,12 @@ class NetworkManager {
     
     private init() {}
     
+    //MARK: - get random photos for main collection
     func getRandomImages(completion: @escaping (Result<[Photo], Error>) -> Void) {
         guard let url = URL(string: Constants.baseUrl.rawValue + Constants.getRandomPhoto.rawValue) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Client-ID \(Constants.accessKey.rawValue)", forHTTPHeaderField: "Authorization")
-        print (url.absoluteString)
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             
@@ -34,6 +34,7 @@ class NetworkManager {
         }.resume()
     }
     
+    //MARK: - search for photos
     func searchPhoto(searchQuery: String, completion: @escaping(Results?) -> Void) {
         guard let url = URL(string: Constants.baseUrl.rawValue + Constants.searchPhoto.rawValue + searchQuery) else { return }
         var request = URLRequest(url: url)
@@ -49,7 +50,5 @@ class NetworkManager {
             }
 
         }.resume()
-        
     }
-
 }

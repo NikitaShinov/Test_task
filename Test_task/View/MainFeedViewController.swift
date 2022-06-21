@@ -16,8 +16,7 @@ class MainFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureUI()
+
         setupSearchBar()
         viewModel = FeedViewModel()
         createCollectionView()
@@ -25,10 +24,6 @@ class MainFeedViewController: UIViewController {
     }
     
     // MARK: - Private Methods
-    
-    private func configureUI() {
-//        title = "Лента"
-    }
     
     private func createCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -77,7 +72,7 @@ extension MainFeedViewController: UICollectionViewDelegate {
         let vc = DetailViewController(photoURL: selectedItem.urls.regular,
                                       downloads: "\(selectedItem.downloads ?? 0)",
                                       author: selectedItem.user.name,
-                                      location: selectedItem.user.location ?? "Неизвестно",
+                                      location: selectedItem.user.location ?? "Unknown",
                                       creationDate: selectedItem.created_at)
 
         navigationController?.pushViewController(vc, animated: true)
